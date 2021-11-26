@@ -4,7 +4,7 @@ CMAKE_MINIMUM_REQUIRED( VERSION 3.1 FATAL_ERROR #[[
 ]] )
 
 PROJECT( "JadeMatrix-ext"
-    VERSION   0.1
+    VERSION   0.2
     LANGUAGES CXX
 )
 
@@ -40,6 +40,15 @@ ENDIF()
 
 # Find dependencies ############################################################
 
+IF( NOT JM_EXT_USE_STD_FORMAT )
+    ADD_DEPENDENCY( fmt
+        REQUIRED
+        VERSION      7
+        SUBDIRECTORY "dependencies/fmtlib/fmt/"
+        COMPONENTS   fmt
+    )
+ENDIF()
+
 IF( BUILD_TESTING )
     ADD_DEPENDENCY( doctest
         REQUIRED
@@ -62,13 +71,17 @@ ENDIF()
 ADD_LIBRARY( ext INTERFACE )
 
 SET( HEADERS
+    "include/ext/logging.hpp"
     "include/ext/source_location.hpp"
 )
 TARGET_SOURCES( ext PRIVATE ${HEADERS} )
 SOURCE_GROUP( "C++ Headers" FILES ${HEADERS} )
 
-TARGET_INCLUDE_DIRECTORIES(
-    ext
+IF( JM_EXT_USE_STD_FORMAT )
+    TARGET_COMPILE_DEFINITIONS( ext INTERFACE JM_EXT_USE_STD_FORMAT )
+ENDIF()
+
+TARGET_INCLUDE_DIRECTORIES( ext
     INTERFACE
         "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>"
         "$<INSTALL_INTERFACE:include/>"

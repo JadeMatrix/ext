@@ -13,6 +13,7 @@ ADD_CUSTOM_TARGET( tests ALL )
 
 FOREACH( CPP_VERSION IN ITEMS "17" "20" )
     FOREACH( SUITE IN ITEMS
+        "logging"
         "source_location"
     )
         ADD_EXECUTABLE( ${SUITE}_tests_${CPP_VERSION} )
@@ -22,6 +23,11 @@ FOREACH( CPP_VERSION IN ITEMS "17" "20" )
                 ext
                 doctest::doctest
         )
+        IF( NOT JM_EXT_USE_STD_FORMAT )
+            TARGET_LINK_LIBRARIES( ${SUITE}_tests_${CPP_VERSION}
+                PRIVATE fmt::fmt
+            )
+        ENDIF()
         SET_ALL_COMPILE_WARNINGS( ${SUITE}_tests_${CPP_VERSION} AS_ERRORS )
         TARGET_COMPILE_DEFINITIONS( ${SUITE}_tests_${CPP_VERSION}
             PRIVATE
