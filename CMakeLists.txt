@@ -81,6 +81,9 @@ INSTALL(
     COMPONENT core
 )
 
+
+# Set up project tests #########################################################
+
 IF( BUILD_TESTING )
     ADD_SUBDIRECTORY( "tests/" )
 ENDIF()
