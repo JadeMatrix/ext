@@ -74,9 +74,9 @@ namespace JadeMatrix::ext::log
         handle( settings s ) : settings_( std::move( s ) ) {}
         
         template< typename... Args > constexpr void as(
-            level            as_level,
-            internal::format with_format,
-            Args&&...        args
+            level                   as_level,
+            internal::format const& with_format,
+            Args&&...               args
         ) const
         {
             if( settings_.should_emit_for( as_level ) )
@@ -95,8 +95,8 @@ namespace JadeMatrix::ext::log
         
         #define DEFINE_LOG_FUNCTION( LEVEL ) \
             template< typename... Args > constexpr void LEVEL( \
-                internal::format with_format, \
-                Args&&...        args \
+                internal::format const& with_format, \
+                Args&&...               args \
             ) const \
             { \
                 as( \
@@ -112,10 +112,10 @@ namespace JadeMatrix::ext::log
         #undef DEFINE_LOG_FUNCTION
         
         template< typename... Args > constexpr bool check_as(
-            level            as_level,
-            bool             condition,
-            internal::format with_format,
-            Args&&...        args
+            level                   as_level,
+            bool                    condition,
+            internal::format const& with_format,
+            Args&&...               args
         ) const
         {
             if( !condition )
@@ -126,9 +126,9 @@ namespace JadeMatrix::ext::log
         }
         
         template< typename... Args > constexpr bool check(
-            bool             condition,
-            internal::format with_format,
-            Args&&...        args
+            bool                    condition,
+            internal::format const& with_format,
+            Args&&...               args
         ) const
         {
             return check_as(
