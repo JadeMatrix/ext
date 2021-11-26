@@ -39,19 +39,19 @@ namespace JadeMatrix::ext::log
         {
             std::string_view                      string;
             std::chrono::system_clock::time_point when;
-            ext::source_location                  location;
+            source_location                       location;
             
             constexpr format(
                 std::string_view                      str,
                 std::chrono::system_clock::time_point now = std::chrono::system_clock::now(),
-                ext::source_location                  loc = ext::source_location::current()
+                source_location                       loc = source_location::current()
             ) : string( str ), when( now ), location( loc )
             {}
             
             [[deprecated( "use string_view literals" )]] constexpr format(
                 char const*                           str,
                 std::chrono::system_clock::time_point now = std::chrono::system_clock::now(),
-                ext::source_location                  loc = ext::source_location::current()
+                source_location                       loc = source_location::current()
             ) : format( std::string_view( str ), now, loc )
             {}
         };
@@ -63,7 +63,7 @@ namespace JadeMatrix::ext::log
         std::function< void(
             level                                 lvl,
             std::chrono::system_clock::time_point now,
-            ext::source_location                  loc,
+            source_location                       loc,
             std::string&&                         msg
         ) > emit;
     };
