@@ -4,7 +4,7 @@ CMAKE_MINIMUM_REQUIRED( VERSION 3.1 FATAL_ERROR #[[
 ]] )
 
 PROJECT( "JadeMatrix-ext"
-    VERSION   0.2
+    VERSION   0.2.1
     LANGUAGES CXX
 )
 

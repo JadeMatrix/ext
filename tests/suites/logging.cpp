@@ -173,3 +173,97 @@ TEST_CASE(
     handle.info( "{}"sv, checker );
     REQUIRE( checker.was_formatted );
 }
+
+
+#define EMIT_CHECK_AS_CASE( LEVEL, VALUE ) \
+    TEST_CASE( \
+        "ext::log::handle::check_as(" \
+        #LEVEL \
+        ", " \
+        #VALUE \
+        ", ... ) (" \
+        JM_EXT_TEST_CPP_VERSION_STRING \
+        ")" \
+    ) \
+    { \
+        std::stringstream ss; \
+         \
+        const ext::log::settings settings{ \
+            /* should_emit_for = */ []( ext::log::level ){ return true; }, \
+            /* emit = */ [ & ss ]( \
+                ext::log::level                       lvl, \
+                std::chrono::system_clock::time_point /* now */, \
+                ext::source_location                  /* loc */, \
+                std::string&&                         msg \
+            ) \
+            { \
+                switch( lvl ) \
+                { \
+                case ext::log::level::verbose: ss << "verbose: "sv; break; \
+                case ext::log::level::info   : ss << "info: "sv   ; break; \
+                case ext::log::level::warning: ss << "warning: "sv; break; \
+                case ext::log::level::error  : ss << "error: "sv  ; break; \
+                } \
+                ss << msg; \
+            } \
+        }; \
+         \
+        const auto handle = ext::log::handle( settings ); \
+         \
+        auto const value = handle.check_as( \
+            ext::log::level::LEVEL, \
+            VALUE, \
+            "hello world"sv \
+        ); \
+         \
+        REQUIRE( value == VALUE ); \
+        if( !VALUE ) \
+            REQUIRE( ss.str() == #LEVEL ": hello world"sv ); \
+    }
+EMIT_CHECK_AS_CASE( verbose, true  )
+EMIT_CHECK_AS_CASE( info   , true  )
+EMIT_CHECK_AS_CASE( warning, true  )
+EMIT_CHECK_AS_CASE( error  , true  )
+EMIT_CHECK_AS_CASE( verbose, false )
+EMIT_CHECK_AS_CASE( info   , false )
+EMIT_CHECK_AS_CASE( warning, false )
+EMIT_CHECK_AS_CASE( error  , false )
+#undef EMIT_CHECK_AS_CASE
+
+
+#define EMIT_CHECK_CASE( VALUE ) \
+    TEST_CASE( \
+        "ext::log::handle::check(" \
+        #VALUE \
+        ", ... ) (" \
+        JM_EXT_TEST_CPP_VERSION_STRING \
+        ")" \
+    ) \
+    { \
+        std::stringstream ss; \
+         \
+        const ext::log::settings settings{ \
+            /* should_emit_for = */ []( ext::log::level ){ return true; }, \
+            /* emit = */ [ & ss ]( \
+                ext::log::level                       lvl, \
+                std::chrono::system_clock::time_point /* now */, \
+                ext::source_location                  /* loc */, \
+                std::string&&                         msg \
+            ) \
+            { \
+                REQUIRE( lvl == ext::log::level::error ); \
+                ss << msg; \
+            } \
+        }; \
+         \
+        const auto handle = ext::log::handle( settings ); \
+         \
+        auto const value = handle.check( VALUE, "hello world"sv ); \
+         \
+        REQUIRE( value == VALUE ); \
+        if( !VALUE ) \
+            REQUIRE( ss.str() == "hello world"sv ); \
+    }
+EMIT_CHECK_CASE( true  )
+EMIT_CHECK_CASE( false )
+#undef EMIT_CHECK_CASE

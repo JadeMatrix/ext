@@ -111,6 +111,34 @@ namespace JadeMatrix::ext::log
         DEFINE_LOG_FUNCTION(error  )
         #undef DEFINE_LOG_FUNCTION
         
+        template< typename... Args > constexpr bool check_as(
+            level            as_level,
+            bool             condition,
+            internal::format with_format,
+            Args&&...        args
+        ) const
+        {
+            if( !condition )
+            {
+                as( as_level, with_format, std::forward< Args >( args )... );
+            }
+            return condition;
+        }
+        
+        template< typename... Args > constexpr bool check(
+            bool             condition,
+            internal::format with_format,
+            Args&&...        args
+        ) const
+        {
+            return check_as(
+                level::error,
+                condition,
+                with_format,
+                std::forward< Args >( args )...
+            );
+        }
+        
     private:
         settings settings_;
     };
