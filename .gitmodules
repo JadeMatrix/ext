@@ -1,3 +1,6 @@
 [submodule "dependencies/JadeMatrix/JadeMatrix-CMake-Modules"]
 	path = dependencies/JadeMatrix/JadeMatrix-CMake-Modules
 	url = ../JadeMatrix-CMake-Modules.git
+[submodule "dependencies/onqtam/doctest"]
+	path = dependencies/onqtam/doctest
+	url = ../../onqtam/doctest.git

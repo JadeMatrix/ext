@@ -48,6 +48,12 @@ IF( BUILD_TESTING )
         COMPONENTS   doctest
         PROPAGATE    CMAKE_MODULE_PATH
     )
+    GET_TARGET_PROPERTY( DOCTEST_IS_IMPORTED doctest::doctest IMPORTED )
+    IF( NOT DOCTEST_IS_IMPORTED )
+        LIST( APPEND CMAKE_MODULE_PATH
+            "${PROJECT_SOURCE_DIR}/dependencies/onqtam/doctest/scripts/cmake/"
+        )
+    ENDIF()
 ENDIF()
 
 
