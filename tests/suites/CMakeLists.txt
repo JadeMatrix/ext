@@ -5,7 +5,6 @@ CMAKE_MINIMUM_REQUIRED( VERSION 3.11 FATAL_ERROR #[[
         INCLUDE( doctest )
 ]] )
 
-FIND_PACKAGE( doctest 2.3.3 REQUIRED COMPONENTS doctest )
 INCLUDE( doctest )
 
 
