@@ -14,7 +14,7 @@ ADD_CUSTOM_TARGET( tests ALL )
 
 FOREACH( CPP_VERSION IN ITEMS "17" "20" )
     FOREACH( SUITE IN ITEMS
-        # TODO
+        "source_location"
     )
         ADD_EXECUTABLE( ${SUITE}_tests_${CPP_VERSION} )
         TARGET_SOURCES( ${SUITE}_tests_${CPP_VERSION} PRIVATE "${SUITE}.cpp" )
