@@ -60,6 +60,13 @@ ENDIF()
 # Set up project targets #######################################################
 
 ADD_LIBRARY( ext INTERFACE )
+
+SET( HEADERS
+    "include/ext/source_location.hpp"
+)
+TARGET_SOURCES( ext PRIVATE ${HEADERS} )
+SOURCE_GROUP( "C++ Headers" FILES ${HEADERS} )
+
 TARGET_INCLUDE_DIRECTORIES(
     ext
     INTERFACE
