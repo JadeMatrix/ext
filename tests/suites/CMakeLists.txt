@@ -9,7 +9,9 @@ INCLUDE( doctest )
 
 
 # Regular runnable unit tests
-ADD_CUSTOM_TARGET( tests ALL )
+IF( NOT TARGET tests )
+    ADD_CUSTOM_TARGET( tests ALL )
+ENDIF()
 
 FOREACH( CPP_VERSION IN ITEMS "17" "20" )
     FOREACH( SUITE IN ITEMS
