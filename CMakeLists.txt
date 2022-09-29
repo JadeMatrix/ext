@@ -33,7 +33,7 @@ INCLUDE( JadeMatrix-CMake-Modules/Util/AddDependency
     RESULT_VARIABLE JMCMM_INCLUDED
 )
 IF( NOT JMCMM_INCLUDED )
-    FIND_PACKAGE( JadeMatrix-CMake-Modules 1.8 REQUIRED )
+    FIND_PACKAGE( JadeMatrix-CMake-Modules 1.9 REQUIRED )
     INCLUDE( JadeMatrix-CMake-Modules/Util/AddDependency )
 ENDIF()
 
